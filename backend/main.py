@@ -85,9 +85,9 @@ class AnalyticsData(BaseModel):
 def generate_kadikoy_grids() -> List[GridCell]:
     """Generate realistic grid data for Kadikoy, Istanbul"""
     
-    # Kadikoy coordinates
-    base_lat = 40.9887
-    base_lng = 29.0238
+    # Kadikoy coordinates - centered on land (Altıyol area)
+    base_lat = 40.9900  # Further inland
+    base_lng = 29.0250  # Adjusted for proper Kadikoy center
     
     # Grid size in degrees (approximately 500m)
     grid_size_deg = 0.0045
@@ -122,11 +122,12 @@ def generate_kadikoy_grids() -> List[GridCell]:
         # Calculate grid position - organized in a grid pattern
         row = idx // 5
         col = idx % 5
-        # Small variation but keep on land
-        lat_offset = (np.random.random() - 0.5) * 0.001  # Very small variation
-        lng_offset = (np.random.random() - 0.5) * 0.001
-        center_lat = base_lat + (row * grid_size_deg * 0.8) + lat_offset
-        center_lng = base_lng + (col * grid_size_deg * 0.6) + lng_offset
+        # Keep grids tightly packed and on land
+        # North-South (lat) spread more, East-West (lng) less to avoid coast
+        lat_offset = (np.random.random() - 0.5) * 0.0005
+        lng_offset = (np.random.random() - 0.5) * 0.0003
+        center_lat = base_lat + (row * grid_size_deg * 0.5) + lat_offset  # Vertical spread
+        center_lng = base_lng + (col * grid_size_deg * 0.3) + lng_offset  # Keep away from coast
         
         half_grid = grid_size_deg / 2
         
