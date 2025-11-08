@@ -116,23 +116,44 @@ def generate_kadikoy_grids() -> List[GridCell]:
         ("Acıbadem", 73.8, 76, 73, 72, 290, 6, 52, "low", 0.43, 1),
     ]
     
+    # Define specific real locations in Kadikoy
+    real_locations = [
+        (40.9908, 29.0253),  # Altıyol Junction
+        (40.9897, 29.0270),  # Bahariye Street
+        (40.9875, 29.0310),  # Moda Pier area
+        (40.9890, 29.0245),  # Kadikoy Market
+        (40.9882, 29.0285),  # Caferaga
+        (40.9871, 29.0258),  # Sogutlucesme
+        (40.9863, 29.0300),  # Moda Street
+        (40.9915, 29.0275),  # Yeldeğirmeni
+        (40.9852, 29.0335),  # Feneryolu direction
+        (40.9895, 29.0230),  # Hasanpaşa
+        (40.9922, 29.0290),  # Fikirtepe direction
+        (40.9878, 29.0225),  # Rasimpaşa
+        (40.9840, 29.0320),  # Göztepe direction
+        (40.9935, 29.0305),  # Kozyatağı North
+        (40.9845, 29.0360),  # Bostancı Beach direction
+        (40.9855, 29.0345),  # Caddebostan direction
+        (40.9830, 29.0340),  # Suadiye direction
+        (40.9825, 29.0330),  # Erenköy direction
+        (40.9910, 29.0220),  # Koşuyolu direction
+        (40.9900, 29.0295),  # Acıbadem direction
+    ]
+    
     for idx, (name, final_score, access, demand, oper, metro_dist, bus_count, 
               building_count, ped_traffic, comm_ratio, vehicles) in enumerate(grid_locations):
         
-        # Calculate grid position - organized in a grid pattern
-        row = idx // 5
-        col = idx % 5
-        # Keep grids tightly packed and on land
-        # North-South (lat) spread more, East-West (lng) less to avoid coast
-        lat_offset = (np.random.random() - 0.5) * 0.0005
-        lng_offset = (np.random.random() - 0.5) * 0.0003
-        center_lat = base_lat + (row * grid_size_deg * 0.5) + lat_offset  # Vertical spread
-        center_lng = base_lng + (col * grid_size_deg * 0.3) + lng_offset  # Keep away from coast
+        # Use predefined real location with small random variation
+        base_location = real_locations[idx]
+        lat_variation = (np.random.random() - 0.5) * 0.0008  # Slight organic variation
+        lng_variation = (np.random.random() - 0.5) * 0.0008
+        center_lat = base_location[0] + lat_variation
+        center_lng = base_location[1] + lng_variation
         
         half_grid = grid_size_deg / 2
         
         grid = GridCell(
-            id=f"KD_{chr(65+row)}{col+1}",
+            id=f"KD_{idx+1:02d}",  # KD_01, KD_02, etc.
             city="Istanbul",
             district="Kadikoy",
             grid_size=500,
