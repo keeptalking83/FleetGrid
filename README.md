@@ -137,12 +137,3 @@ Each grid receives three scores:
 
 MIT License - See LICENSE file for details
 
-## Contact
-
-- Email: hello@fleetgrid.io
-- Website: [Coming Soon]
-
----
-
-Built with ❤️ for the micro-mobility industry
-
