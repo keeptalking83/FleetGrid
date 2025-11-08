@@ -119,11 +119,14 @@ def generate_kadikoy_grids() -> List[GridCell]:
     for idx, (name, final_score, access, demand, oper, metro_dist, bus_count, 
               building_count, ped_traffic, comm_ratio, vehicles) in enumerate(grid_locations):
         
-        # Calculate grid position
+        # Calculate grid position - organized in a grid pattern
         row = idx // 5
         col = idx % 5
-        center_lat = base_lat + (row * grid_size_deg) - (0.01 * np.random.random())
-        center_lng = base_lng + (col * grid_size_deg) - (0.01 * np.random.random())
+        # Small variation but keep on land
+        lat_offset = (np.random.random() - 0.5) * 0.001  # Very small variation
+        lng_offset = (np.random.random() - 0.5) * 0.001
+        center_lat = base_lat + (row * grid_size_deg * 0.8) + lat_offset
+        center_lng = base_lng + (col * grid_size_deg * 0.6) + lng_offset
         
         half_grid = grid_size_deg / 2
         
